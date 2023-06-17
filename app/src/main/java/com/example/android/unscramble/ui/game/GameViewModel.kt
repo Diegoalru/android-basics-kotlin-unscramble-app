@@ -4,12 +4,14 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 
 class GameViewModel : ViewModel() {
-    private val TAG = "[TAG_GameViewModel]"
+
+    private val tag = "[TAG_GameViewModel]"
 
     private val wordsList: MutableList<String> = mutableListOf()
 
     private var _score = 0
     private var _currentWordCount = 0
+
     private lateinit var _currentScrambledWord: String
     private lateinit var currentWord: String
 
@@ -23,13 +25,13 @@ class GameViewModel : ViewModel() {
         get() = _currentScrambledWord
 
     init {
-        Log.d(TAG, "GameViewModel created!")
+        Log.d(tag, "GameViewModel created!")
         getNextWord()
     }
 
     override fun onCleared() {
         super.onCleared()
-        Log.d(TAG, "GameViewModel destroyed!")
+        Log.d(tag, "GameViewModel destroyed!")
     }
 
     /**
@@ -56,6 +58,10 @@ class GameViewModel : ViewModel() {
         }
     }
 
+    private fun increaseScore() {
+        _score += SCORE_INCREASE
+    }
+
     /**
      * Returns true if the current word count is less than MAX_NO_OF_WORDS.
      * Updates the next word.
@@ -65,13 +71,6 @@ class GameViewModel : ViewModel() {
             getNextWord()
             true
         } else false
-    }
-
-    /**
-     * Increases the score by SCORE_INCREASE
-     */
-    private fun increaseScore() {
-        _score += SCORE_INCREASE
     }
 
     /**
@@ -90,7 +89,7 @@ class GameViewModel : ViewModel() {
     /**
      * Re-initializes the game data to restart the game and resets the score.
      */
-    fun reinitializeData(){
+    fun reinitializeData() {
         _score = 0
         _currentWordCount = 0
         wordsList.clear()
