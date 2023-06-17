@@ -63,4 +63,24 @@ class GameViewModel : ViewModel() {
             true
         } else false
     }
+
+    /**
+     * Increases the score by SCORE_INCREASE
+     */
+    private fun increaseScore() {
+        _score += SCORE_INCREASE
+    }
+
+    /**
+     * Returns true if the player word is correct.
+     * Increases the score accordingly.
+     */
+    fun isUserWordCorrect(word: String): Boolean {
+        return if (word.equals(currentWord, false)) {
+            increaseScore()
+            true
+        } else {
+            false
+        }
+    }
 }
