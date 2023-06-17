@@ -6,15 +6,18 @@ import androidx.lifecycle.ViewModel
 class GameViewModel : ViewModel() {
     private val TAG = "[TAG_GameViewModel]"
 
-    private var currentWordCount = 0
     private val wordsList: MutableList<String> = mutableListOf()
 
     private var _score = 0
+    private var _currentWordCount = 0
     private lateinit var _currentScrambledWord: String
     private lateinit var currentWord: String
 
     val score: Int
         get() = _score
+
+    val currentWordCount: Int
+        get() = _currentWordCount
 
     val currentScrambledWord: String
         get() = _currentScrambledWord
@@ -48,7 +51,7 @@ class GameViewModel : ViewModel() {
             getNextWord() // Recursively call until we get a new word
         } else {
             _currentScrambledWord = String(tempWord) // Set the scrambled word
-            ++currentWordCount // Increment the word count
+            ++_currentWordCount // Increment the word count
             wordsList.add(currentWord) // Add the word to the list
         }
     }
