@@ -86,4 +86,14 @@ class GameViewModel : ViewModel() {
             false
         }
     }
+
+    /**
+     * Re-initializes the game data to restart the game and resets the score.
+     */
+    fun reinitializeData(){
+        _score = 0
+        _currentWordCount = 0
+        wordsList.clear()
+        getNextWord()
+    }
 }
