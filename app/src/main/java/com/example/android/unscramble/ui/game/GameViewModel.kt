@@ -13,16 +13,16 @@ class GameViewModel : ViewModel() {
 
     private val wordsList: MutableList<String> = mutableListOf()
 
-    private var _score = 0
-    private var _currentWordCount = 0
+    private val _score = MutableLiveData(0)
+    private val _currentWordCount = MutableLiveData(0)
 
     private val _currentScrambledWord = MutableLiveData<String>()
     private lateinit var currentWord: String
 
-    val score: Int
+    val score: LiveData<Int>
         get() = _score
 
-    val currentWordCount: Int
+    val currentWordCount: LiveData<Int>
         get() = _currentWordCount
 
     val currentScrambledWord: LiveData<String>
@@ -57,13 +57,13 @@ class GameViewModel : ViewModel() {
             getNextWord() // Recursively call until we get a new word
         } else {
             _currentScrambledWord.value = String(tempWord) // Set the scrambled word
-            ++_currentWordCount // Increment the word count
+            _currentWordCount.value = _currentWordCount.value?.inc() // Increment the word count
             wordsList.add(currentWord) // Add the word to the list
         }
     }
 
     private fun increaseScore() {
-        _score += SCORE_INCREASE
+        _score.value = _score.value?.plus(SCORE_INCREASE)
     }
 
     /**
@@ -71,7 +71,7 @@ class GameViewModel : ViewModel() {
      * Updates the next word.
      */
     fun nextWord(): Boolean {
-        return if (currentWordCount < MAX_NO_OF_WORDS) {
+        return if (_currentWordCount.value!! < MAX_NO_OF_WORDS) {
             getNextWord()
             true
         } else false
@@ -94,8 +94,8 @@ class GameViewModel : ViewModel() {
      * Re-initializes the game data to restart the game and resets the score.
      */
     fun reinitializeData() {
-        _score = 0
-        _currentWordCount = 0
+        _score.value = 0
+        _currentWordCount.value = 0
         wordsList.clear()
         getNextWord()
     }
