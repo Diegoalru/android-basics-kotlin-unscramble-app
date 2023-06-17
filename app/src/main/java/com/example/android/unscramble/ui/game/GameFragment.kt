@@ -32,7 +32,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
  */
 class GameFragment : Fragment() {
 
-    companion object{
+    companion object {
         private const val TAG = "[TAG_GameFragment]"
     }
 
@@ -62,6 +62,11 @@ class GameFragment : Fragment() {
             R.string.word_count, 0, MAX_NO_OF_WORDS
         )
 
+        // Observe the scrambledCharArray LiveData, passing in the LifecycleOwner and the observer.
+        viewModel.currentScrambledWord.observe(viewLifecycleOwner) { newWord ->
+            binding.textViewUnscrambledWord.text = newWord
+        }
+
         Log.d(
             TAG,
             "Word: ${viewModel.currentScrambledWord} Score: ${viewModel.score} WordCount: ${viewModel.currentWordCount}"
@@ -78,11 +83,10 @@ class GameFragment : Fragment() {
 
     private fun onSubmitWord() {
         val playerWord = binding.textInputEditText.text.toString()
+
         if (viewModel.isUserWordCorrect(playerWord)) {
             setErrorTextField(false)
-            if (viewModel.nextWord()) {
-                updateNextWordOnScreen()
-            } else {
+            if (!viewModel.nextWord()) {
                 showFinalScoreDialog()
             }
         } else {
@@ -98,7 +102,7 @@ class GameFragment : Fragment() {
     }
 
     private fun updateNextWordOnScreen() {
-        binding.textViewUnscrambledWord.text = viewModel.currentScrambledWord
+        binding.textViewUnscrambledWord.text = viewModel.currentScrambledWord.value
     }
 
     private fun showFinalScoreDialog() {
