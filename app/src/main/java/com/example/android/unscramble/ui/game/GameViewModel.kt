@@ -1,15 +1,10 @@
 package com.example.android.unscramble.ui.game
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class GameViewModel : ViewModel() {
-
-    companion object{
-        private const val TAG = "[TAG_GameViewModel]"
-    }
 
     private val wordsList: MutableList<String> = mutableListOf()
 
@@ -29,13 +24,7 @@ class GameViewModel : ViewModel() {
         get() = _currentScrambledWord
 
     init {
-        Log.d(TAG, "GameViewModel created!")
         getNextWord()
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        Log.d(TAG, "GameViewModel destroyed!")
     }
 
     /**
@@ -82,7 +71,7 @@ class GameViewModel : ViewModel() {
      * Increases the score accordingly.
      */
     fun isUserWordCorrect(word: String): Boolean {
-        return if (word.equals(currentWord, false)) {
+        return if (word.equals(currentWord, true)) {
             increaseScore()
             true
         } else {

@@ -17,7 +17,6 @@
 package com.example.android.unscramble.ui.game
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,10 +32,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
  */
 class GameFragment : Fragment() {
 
-    companion object {
-        private const val TAG = "[TAG_GameFragment]"
-    }
-
     private val viewModel: GameViewModel by viewModels()
 
     // Binding object instance with access to the views in the game_fragment.xml layout
@@ -47,7 +42,6 @@ class GameFragment : Fragment() {
     ): View {
         // Inflate the layout XML file and return a binding object instance
         binding = DataBindingUtil.inflate(inflater, R.layout.game_fragment, container, false)
-        Log.d(TAG, "GameFragment created/re-created!")
         return binding.root
     }
 
@@ -63,21 +57,6 @@ class GameFragment : Fragment() {
 
         binding.submit.setOnClickListener { onSubmitWord() }
         binding.skip.setOnClickListener { onSkipWord() }
-
-        updateNextWordOnScreen()
-
-        Log.d(
-            TAG,
-            "Word: ${viewModel.currentScrambledWord} Score: ${viewModel.score} WordCount: ${viewModel.currentWordCount}"
-        )
-    }
-
-    /**
-     * Called when the fragment is no longer in use.
-     */
-    override fun onDetach() {
-        super.onDetach()
-        Log.d(tag, "GameFragment destroyed!")
     }
 
     private fun onSubmitWord() {
@@ -93,15 +72,12 @@ class GameFragment : Fragment() {
         }
     }
 
-    private fun onSkipWord() = if (viewModel.nextWord()) {
-        setErrorTextField(false)
-        updateNextWordOnScreen()
-    } else {
-        showFinalScoreDialog()
-    }
-
-    private fun updateNextWordOnScreen() {
-        binding.textViewUnscrambledWord.text = viewModel.currentScrambledWord.value
+    private fun onSkipWord() {
+        if (viewModel.nextWord()) {
+            setErrorTextField(false)
+        } else {
+            showFinalScoreDialog()
+        }
     }
 
     private fun showFinalScoreDialog() {
@@ -132,7 +108,6 @@ class GameFragment : Fragment() {
     private fun restartGame() {
         setErrorTextField(false)
         viewModel.reinitializeData()
-        updateNextWordOnScreen()
     }
 
     /**

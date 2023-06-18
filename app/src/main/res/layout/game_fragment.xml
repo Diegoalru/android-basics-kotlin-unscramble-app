@@ -75,6 +75,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_margin"
                 android:layout_marginBottom="@dimen/default_margin"
+                android:text="@{gameViewModel.currentScrambledWord}"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline3"
                 app:layout_constraintBottom_toTopOf="@+id/textView_instructions"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -123,7 +124,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:inputType="textPersonName|textNoSuggestions"
-                    android:text="@{gameViewModel.currentScrambledWord}"
                     android:maxLines="1" />
             </com.google.android.material.textfield.TextInputLayout>
 
