@@ -72,9 +72,6 @@ class GameFragment : Fragment() {
         viewModel.currentWordCount.observe(viewLifecycleOwner) { newWordCount ->
             binding.wordCount.text = getString(R.string.word_count, newWordCount, MAX_NO_OF_WORDS)
         }
-        viewModel.currentScrambledWord.observe(viewLifecycleOwner) { newWord ->
-            binding.textViewUnscrambledWord.text = newWord
-        }
 
         Log.d(
             TAG,
